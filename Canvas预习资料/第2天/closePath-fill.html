@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    //1、closePath是为了将起点和终点连接起来
+    //2、fill方法内部会自动的closePath；stroke不会
+
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    ctx.moveTo(50,50);
+    ctx.lineTo(300,50);
+    ctx.lineTo(200,150);
+    ctx.fill();
+</script>
+</html>

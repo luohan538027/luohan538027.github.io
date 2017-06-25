@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    //1、lineCap：线帽
+//    ctx.moveTo(50,50);
+//    ctx.lineTo(500,50);
+//
+//    ctx.lineWidth=30;
+//    ctx.lineCap="round";//通过这样的方式可以让线段的左右2边变成圆角
+//    ctx.stroke();
+
+
+    //2、lineJoin：线条相交的时候(折线)的状态
+
+    ctx.moveTo(50,50);
+    ctx.lineTo(300,50);
+    ctx.lineTo(200,300);
+
+    ctx.lineWidth=30;
+    ctx.lineJoin="round";
+    ctx.stroke();
+
+
+</script>
+</html>

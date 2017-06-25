@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    var fontSize="36px";
+    var fontFamily="Microsoft Yahei";
+
+
+    //"alphabetic"-->就相当于英语四线格的第三条线，不适用于中文
+    //"hanging"-->坐标位于四线格的顶部
+    //"top"-->坐标跟四线格顶部上面有一段距离
+    //"bottom"-->跟top对应，是底部对齐的意思
+    //"middle"-->居中
+
+    ctx.textBaseline="middle";
+
+
+    //给foont属性设置值的时候，要注意一定要把字体大小和字体类型同时设置，缺一不可
+    ctx.font="50px Consolas";
+    ctx.strokeText("Hello worldg中国!",200,200);
+
+
+    //绘制参考线
+    ctx.moveTo(200,0);
+    ctx.lineTo(200,canvas.height);
+
+    ctx.moveTo(0,200);
+    ctx.lineTo(canvas.width,200);
+
+    ctx.stroke();
+</script>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    function Clock(opt) {
+        for (var key in opt) {
+            this[key] = opt[key];
+        }
+
+        this.init();
+    }
+    Clock.prototype = {
+        constructor: Clock,
+
+        init: function () {
+            //1、绘制大圆
+            this.drawBigCircle();
+            //2、绘制刻度线
+            this.drawTicks();
+        },
+        drawBigCircle: function () {
+            ctx.beginPath();
+
+            ctx.arc(this.bigX, this.bigY, this.bigR, 0, 2 * Math.PI);
+            ctx.stroke();
+        },
+
+        drawTicks: function () {
+            var h1 = (this.bigR - this.length) * Math.sin(this.radian);
+            var b1 = (this.bigR - this.length) * Math.cos(this.radian);
+
+            var h2 = this.bigR * Math.sin(this.radian);
+            var b2 = this.bigR * Math.cos(this.radian);
+
+            var x1 = this.bigX + b1;
+            var y1 = this.bigY + h1;
+
+            var x2 = this.bigX + b2;
+            var y2 = this.bigY + h2;
+
+            ctx.beginPath();
+            ctx.moveTo(x1,y1);
+            ctx.lineTo(x2,y2);
+
+            ctx.stroke();
+        }
+
+    }
+    var clock = new Clock({
+        bigX: 300,
+        bigY: 300,
+        bigR: 150,
+        length: 10,
+        radian: Math.PI / 6
+    })
+
+    //    sin radian=h1/(bigR-length)
+    //    -->h1=(bigR-length)*sin radian
+    //    cos radian=b1/(bigR-length)
+    //    -->b1=(bigR-length)*cos radian
+    //
+    //    sin radian=h2/bigR
+    //    -->h2=bigR * sin radian
+    //    cos radian=b2/bigR
+    //    -->b2=bigR*cos radian;
+    //
+    //    var x1=bigX+b1;
+    //    var y1=bigY+h1;
+    //
+    //    var x2=bigX+b2;
+    //    var y2=bigY+h2;
+</script>
+</html>

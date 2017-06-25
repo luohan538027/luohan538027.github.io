@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    ctx.moveTo(50,50);
+    ctx.lineTo(300,300);
+
+    //是一个空数组，那么还是实线
+    //数组中只有一个元素，那么实线和空白部分长度都为该值
+    //数组中有2个元素，第一个元素表示实线部分的长度，第二个元素表示空白部分的长度
+    //.......3个元素（[10,8,9]），那么第一个实线长度为10，第一个空白长度为8，第二个实线长度为9，第二个空白长度为10，第三个实线长度为8，第三个空白长度为9，以此类推
+    //.......4个元素([10,2,5,2])，第一个实线长度为10，第一个空白长度为2，第二个实线长度为5，第二个空白长度为2，以此类推
+    ctx.setLineDash([20,5,5,5]);
+
+    ctx.lineWidth=3;
+
+    ctx.stroke();
+</script>
+</html>

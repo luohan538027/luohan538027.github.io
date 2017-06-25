@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid red;"></canvas>
+		
+	</body>
+</html>
+<script type="text/javascript">
+	var canvas = document.querySelector('#canvas');
+	var ctx = canvas.getContext('2d');
+	
+	function Circle (options) {
+		this.heartX = options.heartX;
+		this.heartY = options.heartY;
+		this.data = options.data || [];
+		this.radius = options.radius;
+		this.colors = ['red','blue','pink','hotpink','black'];
+		
+	}
+	
+	Circle.prototype = {
+		custructor: Circle,
+		draw:function() {
+			
+			var sum = 0;
+			var self = this;
+			
+			//利用循环画出每一部分圆
+			for(i = 0; i < this.data.length; i++) {
+				sum += this.data[i];
+			}
+			console.log(sum);
+			var temp;
+			var begin = -Math.PI / 2;
+			var end;
+			this.data.forEach(function(v,i){
+				end = begin + (v/sum*2*Math.PI);
+				temp = end;
+				
+				ctx.beginPath();
+				ctx.fillStyle = self.colors[i];
+				ctx.moveTo(self.heartX,self.heartY);
+				ctx.arc(self.heartX,self.heartY,self.radius,begin,end);
+				ctx.fill();
+				begin = temp;
+			})
+		}
+	}
+	
+	var cir = new Circle({
+		heartX:300,
+		heartY:300,
+		radius:150,
+		data:[5,10,25,3,6]
+//		data:[1,1,1,1]
+	});
+	
+	cir.draw();
+</script>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    //1、获取dom元素
+    var canvas=document.getElementById("canvas");
+    //2、获取绘制的入口-->绘图上下文-->工具箱
+    var ctx=canvas.getContext("2d");    //"2d"：绘制2d图形的入口    "webgl":绘制3d图形的入口
+    //3、指定了线段的起点和终点-->图形的轨迹(占位)
+    ctx.moveTo(50,50);
+    ctx.lineTo(300,-100);
+    //4、描边
+    ctx.stroke();//ctx.fill();
+</script>
+</html>

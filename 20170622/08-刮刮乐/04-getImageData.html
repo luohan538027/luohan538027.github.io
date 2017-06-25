@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    ctx.fillStyle="rgba(0,0,0,0.3)";
+    ctx.fillRect(0,0,300,200);
+
+    //获取50*50这样的矩形区域中每一个像素点的rgba的值
+    //返回值是一个对象，对象中有一个data属性，
+    //      data属性是一个数组，数组的长度=像素点的个数*4=宽*高*4
+    //console.log(ctx.getImageData(0,0,50,50));
+
+    //没有图形的地方像素点的rgba：0,0,0,0
+    console.log(ctx.getImageData(350,0,50,50));
+</script>
+</html>

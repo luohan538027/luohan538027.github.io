@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    (function(){
+        var yLength=400,xLength=500,zeroX=50,zeroY=500;
+
+        //箭头三角形的底和高
+        var arrowBottom=10,arrowHeight=20;
+
+
+        //1、绘制坐标轴线
+
+        var yTopX=zeroX,yTopY=zeroY-yLength;
+
+        var xTopX=zeroX+xLength,xTopY=zeroY;
+        ctx.moveTo(yTopX,yTopY);
+        ctx.lineTo(zeroX,zeroY);
+        ctx.lineTo(xTopX,xTopY);
+
+
+        //2、绘制y轴箭头
+        ctx.moveTo(yTopX-arrowBottom/2,yTopY+arrowHeight);
+        ctx.lineTo(yTopX,yTopY);
+        ctx.lineTo(yTopX+arrowBottom/2,yTopY+arrowHeight);
+
+        ctx.moveTo(xTopX-arrowHeight,xTopY-arrowBottom/2);
+        ctx.lineTo(xTopX,xTopY);
+        ctx.lineTo(xTopX-arrowHeight,xTopY+arrowBottom/2);
+
+
+        ctx.stroke();
+    })()
+
+
+</script>
+</html>

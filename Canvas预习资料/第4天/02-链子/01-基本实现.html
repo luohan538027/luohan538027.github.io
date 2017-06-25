@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    //1、绘制一个大圆
+    var bigX=300,bigY=300,bigR=150;
+    ctx.arc(bigX,bigY,bigR,0,2*Math.PI);
+    ctx.stroke();
+
+    //2、绘制3个小圆
+    var radian=Math.PI/6;//小圆的圆心位于大圆的弧度值
+
+    //2.1、计算小圆的圆心坐标
+    var h=bigR*Math.sin(radian);
+    var b=bigR*Math.cos(radian);
+
+    var smallX=bigX+b;
+    var smallY=bigY+h;
+
+    //2.2、绘制小圆
+    ctx.beginPath();
+    var smallR=10;
+    ctx.arc(smallX,smallY,smallR,0,2*Math.PI);
+    ctx.fill();
+
+//    sin radian=h/bigR
+//    -->h=bigR*sin radian
+//    cos radian=b/bigR
+//    -->b=bigR * cos radian;
+//
+//    smallX=bigX+b;
+//    smallY=bigY+h;
+</script>
+</html>

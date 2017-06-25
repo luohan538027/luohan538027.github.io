@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script src="面向对象优化.js"></script>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    var opt = {
+        data: [
+            {x: 50, y: 50},
+            {x: 100, y: 250},
+            {x: 150, y: 300},
+            {x: 200, y: 150},
+            {x: 300, y: 250}
+        ],
+        yTopX: 50,
+        yTopY: 50,
+        yLength: 400,
+        xLength: 600,
+        arrowBottom: 20,
+        arrowHeight: 30
+    }
+
+    var line = new LineChart(opt);
+</script>
+</html>

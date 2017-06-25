@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    ctx.save();//保存了默认的状态
+
+    ctx.strokeStyle="red";
+    ctx.lineWidth=6;
+    ctx.setLineDash([10,2]);
+    ctx.strokeRect(50,50,300,200);
+
+    ctx.restore();//取出默认状态
+    ctx.save();//再次保存默认状态
+
+    ctx.strokeStyle="blue";
+    ctx.lineWidth=5;
+    ctx.strokeRect(300,300,300,200);
+
+
+
+    ctx.restore();//再次取出默认状态
+    ctx.arc(300,300,150,0,2*Math.PI);
+    ctx.stroke();
+
+
+</script>
+</html>

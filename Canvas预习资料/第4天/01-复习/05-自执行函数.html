@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //以下代码，如果自执行函数没有返回值，那么就没有区别
+
+    //如果有返回值
+    var n1=(function(){
+                return 100;
+    })();//n1:100
+
+    var n2=+function(){
+        return 100;
+    }();//n2: +100 -->100
+
+    var n3=+function(){
+        return "abc";
+    }();//n3: +"abc" -->NaN
+
+
+    var n4=!function(){
+        return 100;
+    }();//n4: !100   -->false
+
+
+    var n5=-function(){
+        return 3;
+    }();//n5:-3
+</script>
+</html>

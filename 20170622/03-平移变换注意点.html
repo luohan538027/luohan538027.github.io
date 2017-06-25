@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    ctx.save();//保存默认状态
+
+    ctx.fillRect(0,0,300,200);
+
+    ctx.beginPath();
+    ctx.translate(100,100);
+    ctx.fillStyle="red";
+    ctx.fillRect(0,0,300,200);
+
+
+    ctx.restore();//恢复成默认状态
+
+    //基于默认坐标轴清除画布
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+</script>
+</html>

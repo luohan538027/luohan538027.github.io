@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    //基于原始坐标轴移动
+    ctx.translate(50,0);
+    //基于上面移动之后的坐标轴进行移动
+    ctx.translate(0,50);
+
+    //移回去
+    ctx.translate(-50,-50);
+
+    ctx.fillRect(0,0,300,200);
+</script>
+</html>

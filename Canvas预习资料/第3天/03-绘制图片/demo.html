@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid red;"></canvas>
+
+	</body>
+
+</html>
+
+<script type="text/javascript">
+	var canvas = document.querySelector('canvas');
+	var ctx = canvas.getContext('2d');
+
+	var img = new Image();
+	img['src'] = '../图片/gameImgs/DMMbshuai.png';
+
+	img.onload = function() {
+		var width = img.width / 4;
+		var height = img.height / 4;
+		var i = 0;
+		var y = 0;
+		var time = setInterval(function() {
+			
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.drawImage(img, width * i, 0, width, height, 300,y +=5 , width, height);
+			i++;
+			
+			if(i == 4) {
+				i = 0;
+			}
+			if(y >= canvas.height - height) {
+				clearInterval(time);
+			}
+		}, 100);
+
+	}
+</script>

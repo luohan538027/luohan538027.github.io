@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+    <style>
+        canvas{
+            background-image: url(烤箱.jpg);
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="240" height="240"></canvas>
+</body>
+<script src="jquery-2.1.4.js"></script>
+<script>
+    var canvas=document.querySelector("canvas");
+    var ctx=canvas.getContext("2d");
+
+
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.globalCompositeOperation="destination-out";
+
+    //拖动：鼠标按下并且移动
+    $("canvas").on("mousedown",function(){
+        $("canvas").on("mousemove",function(e){
+            console.log("拖动");
+
+            //1、获取鼠标经过的位置位于画布中的坐标
+            var x=e.pageX-canvas.offsetLeft;
+            var y=e.pageY-canvas.offsetTop;
+
+            ctx.beginPath();
+            ctx.arc(x,y,30,0,2*Math.PI);
+            ctx.fill();
+
+            //2、每一次刮完之后，判断图形中已经被刮了多少
+            //2.1、获取到整个画布中所有的像素点的rgba的值-->是一个数组
+            var data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+            //2.2、计算出所有的已经被刮出的像素点的个数
+            var sum=0;
+
+            //-->这里的for循环的起点，如果是i=0；那么以后i的值可能是：0 4 8 12。。。
+            //                          透明度的值：i+3的位置：0+3 4+3 8+3 12+3
+//            for (var i = 0; i < data.length; i+=4) {
+//                if(data[i+3]==0){
+//                    //该像素点已经被刮出
+//                    sum++;
+//                }
+//            }
+
+            //-->这里的for循环以3位起点，那么以后在遍历的过程中，i的值可能是：3 7 11 15 19。。。
+            //                          而这里的3 7 11 15 19 正好就是表示透明度
+            //                              -->只需要通过data[i]获取到透明度
+            for (var i = 0; i < data.length; i+=4) {
+                if(data[i]==0){
+                    //该像素点已经被刮出
+                    sum++;
+                }
+            }
+            //2.3、判断个数是否已经达到总数的一半
+            if(sum>=(canvas.width*canvas.height/2)){
+//                console.log("一半了");
+
+                //展示全部商品：-->清除画布
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+
+                //解除相关的事件
+                $("canvas").off("mousedown mouseup mousemove");
+            }
+
+
+        })
+    }).on("mouseup",function(){
+        console.log("抬起");
+        $("canvas").off("mousemove");
+    })
+
+//    ctx.arc(20,20,20,0,2*Math.PI);
+//    ctx.fill();
+</script>
+</html>

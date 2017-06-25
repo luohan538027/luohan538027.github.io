@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+    <style>
+        canvas{
+            position: absolute;
+            left:50px;
+            top:50px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+<canvas id="canvas2" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.fillRect(0,0,300,200);
+
+    var canvas2 = document.getElementById("canvas2");
+    var ctx2 = canvas.getContext("2d");
+    ctx2.arc(300,300,150,0,2*Math.PI);
+    ctx2.fill();
+</script>
+</html>

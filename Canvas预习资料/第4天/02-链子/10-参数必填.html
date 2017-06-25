@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script src="jquery1.7.js"></script>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    function Chain(opt) {
+
+        //判断opt中如果没有bigX，友情的提示调用者-->抛出异常
+        if(!opt.ctx){
+            throw new Error("请提供参数ctx");
+        }
+        if(!opt.bigX){
+            throw new Error("请提供参数bigX");
+        }
+        if(!opt.bigY){
+            throw new Error("请提供参数bigY");
+        }
+        if(!opt.bigR){
+            throw new Error("请提供参数bigR");
+        }
+
+        //为了实现将opt中的属性在多个原型方法之间传递，决定把这些属性存放在this中--->混入继承
+        $.extend(this,opt);
+
+        this.init();
+    }
+
+    Chain.prototype = {
+        //约定
+        constructor: Chain,
+        //绘制链子的入口函数
+        init: function () {
+            this.drawBigCircle();
+            this.drawSmallCircles();
+        },
+
+        //1、绘制一个大圆
+        drawBigCircle: function () {
+            var ctx=this.ctx;
+
+            ctx.arc(this.bigX, this.bigY, this.bigR, 0, 2 * Math.PI);
+            ctx.stroke();
+        },
+
+        //2、绘制若干个小圆
+        drawSmallCircles: function () {
+            var ctx=this.ctx;
+
+            //计算相邻小圆圆心的弧度差
+            var singleRadian = 2 * Math.PI / this.num;
+
+            for (var i = 0; i < this.num; i++) {
+                var radian = this.startRadian + singleRadian * i;//小圆的圆心位于大圆的弧度值
+
+                //2.1、计算小圆的圆心坐标
+                var h = this.bigR * Math.sin(radian);
+                var b = this.bigR * Math.cos(radian);
+
+                var smallX = this.bigX + b;
+                var smallY = this.bigY + h;
+
+                //2.2、绘制小圆
+                ctx.beginPath();
+                ctx.arc(smallX, smallY, this.smallR, 0, 2 * Math.PI);
+                ctx.fill();
+
+            }
+        }
+    }
+
+
+    var chain=new Chain({
+        ctx:ctx,
+        bigX: 300,
+        bigY: 300,
+        bigR: 150,
+        smallR: 10,
+        num: 15,
+        startRadian: Math.PI / 6
+    });
+    //这样通过函数封装，分离了业务逻辑，一定程度上提高了代码的可读性
+    //但是此时有3个全局函数，会造成一定程度上的全局变量污染
+</script>
+</html>

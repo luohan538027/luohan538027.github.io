@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		html,
+		body {
+			height: 100%;
+			background-color: darkgreen;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		
+		.outer {
+			margin: 10px auto;
+			width: 600px;
+		}
+		
+		.skin {
+			width: 600px;
+			height: 20px;
+		}
+		
+		.skin ul li {
+			float: left;
+			width: 6px;
+			height: 6px;
+			border: 4px solid;
+			margin-right: 20px;
+			list-style: none;
+			cursor: pointer;
+		}
+		
+		.items {
+			width: 600px;
+			height: 30px;
+		}
+		
+		.items ul {
+			width: 100%;
+			height: 100%;
+		}
+		
+		.items ul li {
+			width: 98px;
+			height: 28px;
+			border: 1px solid white;
+			list-style: none;
+			float: left;
+			line-height: 28px;
+			text-align: center;
+		}
+		
+		a {
+			width: 100%;
+			height: 100%;
+			text-decoration: none;
+			color: white;
+		}
+		
+		#red {
+			background-color: red;
+			border-color: red;
+		}
+		
+		#blue {
+			background-color: blue;
+			border-color: blue;
+		}
+		
+		#green {
+			background-color: green;
+			border-color: green;
+		}
+	</style>
+
+	<body>
+		<div class="outer">
+			<div class="skin">
+				<ul>
+					<li id="red"></li>
+					<li id="blue"></li>
+					<li id="green"></li>
+				</ul>
+			</div>
+
+			<div class="items">
+				<ul>
+					<li>
+						<a href="">新闻</a>
+					</li>
+					<li>
+						<a href="">娱乐</a>
+					</li>
+					<li>
+						<a href="">体育</a>
+					</li>
+					<li>
+						<a href="">电影</a>
+					</li>
+					<li>
+						<a href="">音乐</a>
+					</li>
+					<li>
+						<a href="">旅游</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</body>
+
+</html>
+<script type="text/javascript">
+	var lis = document.querySelectorAll('.skin ul li');
+	var body = document.body;
+	var lis2 = document.querySelectorAll('items ul li')
+	console.log(body);
+	var arr = ['pink','skyblue','yellowgreen']
+	
+	for(i = 0; i < lis.length; i++) {
+		lis[i].index = i;
+		lis[i].onclick = function () {
+			
+			body.style.backgroundColor = arr[this.index];
+			
+			for(i = 0; i < lis.length; i++) {
+				lis[i].style.backgroundColor = lis[i].id;
+			}
+			this.style.backgroundColor = 'white';
+		}
+	}
+</script>

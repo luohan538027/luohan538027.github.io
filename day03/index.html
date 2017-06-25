@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid red;"></canvas>
+
+	</body>
+
+</html>
+
+<script type="text/javascript">
+	var canvas = document.querySelector('#canvas');
+	var ctx = canvas.getContext('2d');
+
+	//构造函数
+	function Clock(opt) {
+		
+		var defaultOpt = {
+			length: 20,
+			longLength: 30,
+			hourLength: 50,
+			minuteLength: 70,
+			secondLength: 120,
+		}
+		
+		for(var key in defaultOpt) {
+			this[key] = defaultOpt[key];
+		}
+
+		for(var key in opt) {
+			this[key] = opt[key];
+		}
+		
+		var arr = 'bigX,bigY,bigRadius'.split(',');
+		arr.forEach(function(v){
+			if(!opt[v]) throw new Error('请输入必须的参数');
+		})
+		
+		ctx.font = '20px 微软雅黑';
+		this.init();
+	}
+
+	//clock原型
+	Clock.prototype = {
+		constructor: Clock,
+
+		//init
+		init: function() {
+			this.drawBigCircle();
+			this.drawTick();
+			this.drawPoint();
+			this.drawNum();
+			this.auto();
+
+		},
+
+		//画出钟的外框
+		drawBigCircle: function() {
+			ctx.beginPath();
+			ctx.lineWidth = 6;
+			ctx.arc(this.bigX, this.bigY, this.bigRadius, 0, 2 * Math.PI);
+			ctx.strokeStyle = 'blue';
+			ctx.stroke();
+		},
+
+		//画出刻度线
+		drawTick: function() {
+
+			var radian = 2 * Math.PI / 60;
+
+			for(i = 0; i < 60; i++) {
+				var smallRadius;
+				i % 5 == 0 ?
+					(smallRadius = this.bigRadius - this.longLength) : (smallRadius = this.bigRadius - this.length);
+				//计算出大圆上的每个点
+				var h1 = this.bigRadius * Math.sin(radian * i);
+				var b1 = this.bigRadius * Math.cos(radian * i);
+				var x1 = this.bigX + b1;
+				var y1 = this.bigY + h1;
+
+				//计算出小圆上的每个点
+				var h2 = smallRadius * Math.sin(radian * i);
+				var b2 = smallRadius * Math.cos(radian * i);
+				var x2 = this.bigX + b2;
+				var y2 = this.bigY + h2;
+
+				//绘制刻度线
+
+				ctx.beginPath();
+				ctx.moveTo(x1, y1);
+				ctx.lineTo(x2, y2);
+				ctx.lineWidth = 6;
+				ctx.strokeStyle = 'black';
+				ctx.stroke();
+
+			}
+		},
+
+		//画出市政分针秒针
+		drawPoint: function() {
+
+			var time = new Date();
+			var hour = time.getHours() % 12;
+			var minute = time.getMinutes();
+			var second = time.getSeconds();
+			var bigX = this.bigX;
+			var bigY = this.bigY;
+
+			console.log(hour);
+			console.log(minute);
+			console.log(second);
+			//封装画针函数
+			function points(length, color, pointRadian) {
+				var h1 = length * Math.sin(pointRadian);
+				var b1 = length * Math.cos(pointRadian);
+
+				var x = bigX + b1;
+				var y = bigY + h1;
+
+				ctx.beginPath();
+				ctx.moveTo(bigX, bigY);
+				ctx.lineTo(x, y);
+				ctx.strokeStyle = color;
+				ctx.stroke();
+			}
+
+			//画出秒针
+			var secondRadian = second / 60 * 2 * Math.PI - Math.PI / 2;
+			points(this.secondLength, 'yellow', secondRadian);
+
+			//画出分针
+			var minuteRadian = minute / 60 * 2 * Math.PI - Math.PI / 2;
+			points(this.minuteLength, 'blue', minuteRadian);
+
+			//画出时针
+			var hourRadian = hour / 12 * 2 * Math.PI - Math.PI / 2 + (minute * 60 + second) / 60 / 60  * Math.PI * 2 / 12;
+			points(this.hourLength, 'red', hourRadian);
+			
+		},
+
+		//自动动
+		auto: function() {
+			var _this = this;
+			var time = setInterval(function() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				_this.drawBigCircle();
+				_this.drawTick();
+				_this.drawPoint();
+				_this.drawNum();
+			}, 1000)
+		},
+
+		//绘制文字
+		drawNum: function() {
+			for(i = 1; i <= 12; i++) {
+				var startRadian = -Math.PI / 2 + Math.PI / 6 * i;
+				var h1 = (i >= 6 && i != 12 ? (this.bigRadius + 30) : (this.bigRadius + 20)) * Math.sin(startRadian);
+				var b1 = (i >= 6 && i != 12 ? (this.bigRadius + 30) : (this.bigRadius + 20)) * Math.cos(startRadian);
+				var x1 = this.bigX + b1;
+				var y1 = this.bigY + h1;
+				ctx.beginPath();
+				ctx.fillStyle = 'red';
+				ctx.fillText(i, x1, y1);
+
+			}
+		}
+
+	};
+
+	var clock = new Clock({
+		bigX: 300,
+		bigY: 300,
+		bigRadius: 200,
+		length: 30,
+		longLength: 50,
+		hourLength: 80,
+		minuteLength: 100,
+		secondLength: 140,
+	});
+</script>

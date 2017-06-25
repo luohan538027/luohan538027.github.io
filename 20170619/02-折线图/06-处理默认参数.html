@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script src="jquery-2.1.4.js"></script>
+<script>
+    //1、绘制坐标轴线
+
+    function LineChart(opt){
+        if(!opt){
+            //抛出一个异常：
+            throw new Error("参数必填");
+        }
+
+        //处理必填的参数
+        //优化前：
+//        if(!opt.canvas){
+//            throw new Error("请给参数传入属性：canvas");
+//        }
+//        if(!opt.data){
+//            throw new Error("请给参数传入属性：data");
+//        }
+        //优化后：
+        var args=["canvas","data"];
+        args.forEach(function(v){
+            if(!opt[v]){
+                throw new Error("请给参数传入属性："+v);
+            }
+        })
+
+
+        //优化前：
+//        if(!opt.xLength){
+//            this.xLength=500;
+//        }
+//        if(!opt.yLength){
+//            this.yLength=400;
+//        }
+//        if(!opt.zeroX){
+//            this.zeroX=50;
+//        }
+//        if(!opt.zeroY){
+//            this.zeroY=500;
+//        }
+        //优化后：
+        this.xLength=opt.xLength || 500;
+        this.yLength=opt.yLength || 400;
+        this.zeroX=opt.zeroX || 50;
+        this.zeroY=opt.zeroY || 500;
+
+        //将opt中的属性原封不动的赋值给this-->混入继承
+        $.extend(this,opt);
+
+        this.ctx=this.canvas.getContext("2d");
+
+        this.yTopX=this.zeroX;
+        this.yTopY=this.zeroY-this.yLength;
+
+        this.xTopX=this.zeroX+this.xLength;
+        this.xTopY=this.zeroY;
+
+
+
+        this.init();//初始化
+    }
+
+    LineChart.prototype={
+        //约定俗成：
+        constructor:LineChart,
+
+        init:function(){
+            this.drawAxis();
+            this.drawArrows();
+            this.drawPoints();
+            //方法调用模式    -->drawPoints函数内部的this指向init函数内部的this
+            this.drawLine();
+        },
+
+        //绘制坐标轴
+        drawAxis:function(){
+            var ctx=this.ctx;
+
+            ctx.moveTo(this.yTopX,this.yTopY);
+            ctx.lineTo(this.zeroX,this.zeroY);
+            ctx.lineTo(this.xTopX,this.xTopY);
+        },
+
+        //绘制2个坐标轴箭头：
+        drawArrows:function(){
+            var ctx=this.ctx;
+
+            ctx.moveTo(this.yTopX-this.arrowBottom/2,this.yTopY+this.arrowHeight);
+            ctx.lineTo(this.yTopX,this.yTopY);
+            ctx.lineTo(this.yTopX+this.arrowBottom/2,this.yTopY+this.arrowHeight);
+
+            ctx.moveTo(this.xTopX-this.arrowHeight,this.xTopY-this.arrowBottom/2);
+            ctx.lineTo(this.xTopX,this.xTopY);
+            ctx.lineTo(this.xTopX-this.arrowHeight,this.xTopY+this.arrowBottom/2);
+
+            ctx.stroke();
+        },
+
+        //绘制数据点
+        drawPoints:function(){
+            var ctx=this.ctx;
+
+            ctx.beginPath();
+
+            var self=this;//this-->LineChart构造函数的实例
+
+            this.data2=this.data.map(function(v){
+                //v:{x:xxx,y:xxx}
+
+                //计算出该点位于canvas上的坐标
+                //  -->方式：根据判断该点的坐标跟zeroX/zeroY的距离来计算出该点的实际坐标
+
+                var canvasX=self.zeroX+v.x;
+                var canvasY=self.zeroY-v.y;
+
+                //绘制边长为6px的正方形
+                ctx.strokeRect(canvasX-3,canvasY-3,6,6);
+
+                return {x:canvasX,y:canvasY};
+            });
+        },
+
+        //连线
+        drawLine:function(){
+            var ctx=this.ctx;
+
+            this.data2.forEach(function(v,i){
+                //v:{x:...,y:...}
+
+//                if(i==0){
+//                    ctx.moveTo(v.x,v.y);
+//                }else{
+//                    ctx.lineTo(v.x,v.y);
+//                }
+
+                ctx[i==0?"moveTo":"lineTo"](v.x,v.y);
+
+
+            });
+            ctx.stroke();
+        }
+
+
+    };
+
+    //配置/选项
+    var opt={
+        canvas:document.getElementById("canvas"),
+        data:[
+            {x:50,y:50},
+            {x:100,y:100},
+            {x:150,y:300},
+            {x:200,y:50},
+            {x:250,y:450}
+        ],
+        yLength:500,
+        xLength:600,
+        zeroX:50,
+        zeroY:500,
+        arrowBottom:10,
+        arrowHeight:20
+    }
+
+    var lineChart=new LineChart(opt);//构造函数调用模式-->this指向构造函数的实例
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid red;"></canvas>
+		
+	</body>
+</html>
+
+<script type="text/javascript">
+	var canvas = document.querySelector('#canvas');
+	var ctx = canvas.getContext('2d');
+	
+	var begin = - Math.PI / 2;
+	var step = 0.01 * Math.PI;
+	
+	var time = setInterval(function(){
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+		
+		ctx.moveTo(300,300);
+		ctx.arc(300,300,150,begin,begin + step);
+		
+		ctx.fill();
+		
+		step >= 2*Math.PI && clearInterval(time);
+		
+		step += 0.01*Math.PI;
+	},10)
+</script>

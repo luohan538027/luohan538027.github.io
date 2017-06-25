@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas width="800" height="600"></canvas>
+</body>
+<script>
+    var canvas = document.querySelector("canvas");
+    var ctx = canvas.getContext("2d");
+
+    ctx.fillRect(0,0,300,200);
+
+    ctx.globalCompositeOperation="destination-out";
+
+    ctx.fillStyle="red";
+    ctx.arc(200,200,150,0,2*Math.PI);
+    ctx.fill();
+</script>
+</html>

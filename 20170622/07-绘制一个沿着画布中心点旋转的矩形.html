@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    //1、沿着画布的中心点旋转，必须让中心点不动，而在旋转的过程中，只有原点不动，所以需要让中心点成为原点
+    ctx.translate(canvas.width/2,canvas.height/2);
+    //2、绘制矩形
+    var timer=setInterval(function(){
+
+        ctx.clearRect(-canvas.width/2,-canvas.height/2,canvas.width,canvas.height);
+
+        ctx.strokeRect(-150,-100,300,200);
+
+        ctx.rotate(Math.PI/100);
+    },1000);
+</script>
+</html>

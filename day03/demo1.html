@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+
+	</style>
+
+	<body>
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid red;"></canvas>
+
+	</body>
+
+</html>
+<script type="text/javascript">
+	var canvas = document.querySelector('canvas');
+	var ctx = canvas.getContext('2d');
+
+	ctx.strokeStyle = 'blue';
+	
+	ctx.translate(300, 300);
+
+	var time = setInterval(function(){
+
+		ctx.clearRect(-300,-300,canvas.width,canvas.height);
+		ctx.strokeRect(0, 0, 300, 200);
+		ctx.rotate(Math.PI / 2); 
+	}, 100);
+</script>

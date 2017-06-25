@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    //用户提供的数据（根据用户看到的坐标轴原点为参考点）
+    var data=[
+        {x:50,y:50},
+        {x:100,y:100},
+        {x:150,y:300},
+        {x:200,y:50},
+        {x:250,y:450}
+    ];
+
+    (function(){
+        var yLength=400,xLength=500,zeroX=50,zeroY=500;
+
+        //箭头三角形的底和高
+        var arrowBottom=10,arrowHeight=20;
+
+
+        //1、绘制坐标轴线
+
+        var yTopX=zeroX,yTopY=zeroY-yLength;
+
+        var xTopX=zeroX+xLength,xTopY=zeroY;
+        ctx.moveTo(yTopX,yTopY);
+        ctx.lineTo(zeroX,zeroY);
+        ctx.lineTo(xTopX,xTopY);
+
+
+        //2、绘制y轴箭头
+        ctx.moveTo(yTopX-arrowBottom/2,yTopY+arrowHeight);
+        ctx.lineTo(yTopX,yTopY);
+        ctx.lineTo(yTopX+arrowBottom/2,yTopY+arrowHeight);
+
+        ctx.moveTo(xTopX-arrowHeight,xTopY-arrowBottom/2);
+        ctx.lineTo(xTopX,xTopY);
+        ctx.lineTo(xTopX-arrowHeight,xTopY+arrowBottom/2);
+
+        ctx.stroke();
+
+
+        //绘制数据点
+        var data2=data.map(function(v){
+            //v:{x:xxx,y:xxx}
+
+            //计算出该点位于canvas上的坐标
+            //  -->方式：根据判断该点的坐标跟zeroX/zeroY的距离来计算出该点的实际坐标
+
+            var canvasX=zeroX+v.x;
+            var canvasY=zeroY-v.y;
+
+            //绘制边长为6px的正方形
+            ctx.strokeRect(canvasX-3,canvasY-3,6,6);
+
+            return {x:canvasX,y:canvasY};
+        });
+
+        //连线
+        ctx.moveTo(zeroX,zeroY);
+        data2.forEach(function(v){
+            //v:{x:...,y:...}
+
+            ctx.lineTo(v.x,v.y);
+        });
+        ctx.stroke();
+
+        console.log(data);
+        console.log(data2);
+
+    })()
+
+
+</script>
+</html>

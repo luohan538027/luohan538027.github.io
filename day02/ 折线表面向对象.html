@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="800" height="600" style="border: 1px solid red;"></canvas>
+
+	</body>
+
+</html>
+<script src="jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+	function LineChart(options) {
+		//		this.xLength = options.xLength;
+		//		this.ylength = options.yLength;
+		//		this.zeroX = options.zeroX;
+		//		this.zeroY = options.zeroY;
+		//		this.arrowBottom = options.arrowBottom;
+		//		this.arrowHeight = options.arrowHeight;
+		//优化传参
+		//判断是否传入了必须的参数
+		var arr = ['canvas', 'data'];
+		arr.forEach(function(v, i) {
+			if(!options[v]) {
+				throw new Error('请传入必须的属性');
+			}
+		})
+
+		//默认参数设置
+		var defaultOpt = {
+			arrowBottom: 10,
+			arrowHeight: 10,
+			xLength: 200,
+			yLength: 200,
+			zeroX: 50,
+			zeroY: 550,
+		}
+
+		$.extend(this,defaultOpt ,options);
+		//		this.data = options.data;
+		this.canvas = document.querySelector(options.canvas);
+		this.ctx = this.canvas.getContext('2d');
+
+		//计算出x，y轴顶点
+		this.xTopX = this.zeroX + this.xLength;
+		this.xTopY = this.zeroY;
+
+		this.yTopX = this.zeroX;
+		this.yTopY = this.zeroY - this.yLength;
+
+		this.init();
+	}
+
+	LineChart.prototype = {
+		//构造器
+		custructor: LineChart,
+
+		//调用方法进行初始化,
+		init: function() {
+			this.drawAxis();
+			this.drawArrow();
+			this.drawSquared();
+			this.drawLine();
+		},
+
+		//绘制坐标轴的方法
+		drawAxis: function() {
+			var ctx = this.ctx;
+			ctx.moveTo(this.xTopX, this.xTopY);
+			ctx.lineTo(this.zeroX, this.zeroY);
+			ctx.lineTo(this.yTopX, this.yTopY);
+			ctx.stroke();
+		},
+
+		//绘制箭头的方法
+		drawArrow: function() {
+			var ctx = this.ctx;
+			//绘制y轴箭头
+			ctx.moveTo(this.yTopX - this.arrowBottom / 2, this.yTopY + this.arrowHeight);
+			ctx.lineTo(this.yTopX, this.yTopY);
+			ctx.lineTo(this.yTopX + this.arrowBottom / 2, this.yTopY + this.arrowHeight);
+
+			//绘制x轴箭头
+			ctx.moveTo(this.xTopX - this.arrowHeight, this.xTopY - this.arrowBottom / 2);
+			ctx.lineTo(this.xTopX, this.xTopY);
+			ctx.lineTo(this.xTopX - this.arrowHeight, this.xTopY + this.arrowBottom / 2);
+
+			ctx.stroke();
+		},
+
+		//绘制数据点的小方格
+		drawSquared: function() {
+			var ctx = this.ctx;
+			var _this = this;
+			//遍历用户数据，转换成坐标轴坐标，
+			ctx.beginPath();
+
+			this.data2 = this.data.map(function(v) {
+				var canvasX = v.x + _this.zeroX;
+				var canvasY = _this.zeroY - v.y;
+
+				//绘制小方格
+
+				ctx.strokeRect(canvasX - 3, canvasY - 3, 6, 6);
+
+				return {
+					x: canvasX,
+					y: canvasY
+				};
+			});
+
+		},
+
+		//用直线连接数据
+		drawLine: function() {
+			var ctx = this.ctx;
+			var _this = this;
+			this.data2.forEach(function(v, i) {
+				//从第一个点开始连接
+				//				ctx[i==0? 'moveTo':'lineTo'](v.x,v.y);
+
+				//从原点开始链接 
+				ctx[i == 0 ? 'moveTo' : 'lineTo']((i == 0 ? _this.zeroX : v.x), (i == 0 ? _this.zeroY : v.y));
+			})
+			ctx.stroke();
+
+		}
+
+	}
+
+	var line = new LineChart({
+		xLength: 500,
+		yLength: 500,
+		zeroX: 50,
+		zeroY: 550,
+		canvas: '#canvas',
+		arrowBottom: 20,
+		arrowHeight: 20,
+		data: [{
+				x: 50,
+				y: 50
+			},
+			{
+				x: 100,
+				y: 100
+			},
+			{
+				x: 150,
+				y: 300
+			},
+			{
+				x: 200,
+				y: 50
+			},
+			{
+				x: 250,
+				y: 450
+			}
+		]
+
+	});
+</script>

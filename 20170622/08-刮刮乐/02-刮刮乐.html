@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--1、把奖品作为canvas标签的背景图-->
+<canvas id="canvas" width="240" height="240" style="background-image: url(烤箱.jpg)"></canvas>
+</body>
+<script src="jquery-2.1.4.js"></script>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    //2、绘制一个遮罩层
+    ctx.fillStyle="#ccc";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    //3、设置属性
+    ctx.globalCompositeOperation="destination-out";
+
+    //4、绑定了一个事件实现用户刮的效果
+    $("canvas").on("mousedown",function(){
+        $(this).on("mousemove",function(e){
+            ctx.beginPath();
+
+            //获取了鼠标相对于网页的位置
+            var pageX=e.pageX;
+            var pageY=e.pageY;
+            //获取鼠标位于画布中的位置
+            var x=pageX-this.offsetLeft;
+            var y=pageY-this.offsetTop;
+
+            //在该位置绘制一个圆
+            ctx.arc(x, y, 20, 0, 2 * Math.PI);
+            ctx.fill();
+        })
+    }).on("mouseup",function(){
+        $(this).off("mousemove");
+    })
+
+
+
+</script>
+</html>

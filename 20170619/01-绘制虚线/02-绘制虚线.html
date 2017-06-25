@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red;"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    var x=50,y=50;  //线段的起点
+
+    //实线部分和空白部分的长度
+    var length=10,space=2;
+
+    ctx.beginPath();
+
+    for (var i = 0; i < 10; i++) {
+
+        //第i个线段的起点：
+        var x1=x+(length+space)*i;
+        //第i个线段的终点：
+        var x2=x+(length+space)*i+length;
+
+
+        ctx.moveTo(x1,y);
+        ctx.lineTo(x2,y);
+
+    }
+
+    ctx.stroke();
+</script>
+</html>

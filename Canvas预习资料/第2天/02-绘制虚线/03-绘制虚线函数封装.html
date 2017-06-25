@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    function drawDashLine(x,y,length,space){
+        for (var i = 0; i < 30; i++) {
+            ctx.moveTo(x+(length+space)*i,y);
+            ctx.lineTo(x+(length+space)*i+length,y);
+        }
+
+        ctx.stroke();
+    }
+
+    drawDashLine(100,100,20,5);
+
+
+
+//    ctx.moveTo(50,50);//50+15*0
+//    ctx.lineTo(60,50);//50+15*0+10
+//
+//    ctx.moveTo(65,50);//50+10+5     -->50+15*1
+//    ctx.lineTo(75,50);//50+10+5+10
+//
+//    ctx.moveTo(80,50);//50+10+5+10+5    -->50+15*2
+//    ctx.lineTo(90,50);//50+10+5+10+5+10
+//
+//    ctx.moveTo(95,50);//50+15*3
+//    ctx.lineTo(105,50);//50+15*3+10
+//
+//    ctx.moveTo(110,50);//50+15*4
+//    ctx.lineTo(120,50);//50+15*4+10
+
+
+
+</script>
+</html>
